@@ -19,23 +19,19 @@ socketIO.on("connection", (client) => {
   });
 
   //Send message to only a particular user
-  client.on("send_message", (message) => {
-    // receiverChatID = message.receiverChatID;
-    // senderChatID = message.senderChatID;
-    // message = message.message;
-    // sentAt = message.sentAt;
+  client.on("send_message", (dataMessage) => {
+    receiverChatID = dataMessage.receiverChatID;
+    senderChatID = dataMessage.senderChatID;
+    message = dataMessage.message;
+    sentAt = dataMessage.sentAt;
 
     //Send message to only that particular room
-    client.in(receiverChatID).emit(
-      "receive_message",
-      message
-      // {
-      //   message: message,
-      //   senderChatID: senderChatID,
-      //   receiverChatID: receiverChatID,
-      //   sentAt: sentAt,
-      // }
-    );
+    client.in(receiverChatID).emit("receive_message", {
+      message: message,
+      senderChatID: senderChatID,
+      receiverChatID: receiverChatID,
+      sentAt: sentAt,
+    });
   });
 });
 
