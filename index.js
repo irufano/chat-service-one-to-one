@@ -24,14 +24,7 @@ socketIO.on("connection", (client) => {
     senderChatID = dataMessage.senderChatID;
     message = dataMessage.message;
     sentAt = dataMessage.sentAt;
-
-    //Send message to only that particular room
-    client.in(senderChatID).emit("receive_message", {
-      message: message,
-      senderChatID: senderChatID,
-      receiverChatID: receiverChatID,
-      sentAt: sentAt,
-    });
+    
     //Send message to only that particular room
     client.in(receiverChatID).emit("receive_message", {
       message: message,
