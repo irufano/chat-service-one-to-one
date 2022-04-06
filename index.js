@@ -28,9 +28,9 @@ socketIO.on("connection", (client) => {
     //Send message to only that particular room
     client.in(receiverChatID).emit("receive_message", {
       message: message,
-      sentAt: sentAt,
       senderChatID: senderChatID,
       receiverChatID: receiverChatID,
+      sentAt: sentAt,
     });
   });
 });
