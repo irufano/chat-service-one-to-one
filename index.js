@@ -22,11 +22,13 @@ socketIO.on("connection", (client) => {
   client.on("send_message", (message) => {
     receiverChatID = message.receiverChatID;
     senderChatID = message.senderChatID;
-    content = message.content;
+    message = message.message;
+    sentAt = message.sentAt;
 
     //Send message to only that particular room
     client.in(receiverChatID).emit("receive_message", {
-      content: content,
+      content: message,
+      sentAt: sentAt,
       senderChatID: senderChatID,
       receiverChatID: receiverChatID,
     });
