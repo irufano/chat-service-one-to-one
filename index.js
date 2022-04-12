@@ -39,7 +39,10 @@ socketIO.on("connection", (client) => {
   // var nspSockets = socketIO.of('/chat').sockets;
   // Object.keys(nspSockets).length.toString()
 
-  client.emit("available-users", availableUsers);
+  client.emit(
+    "available-users",
+    availableUsers.sort((a, b) => a.username.localeCompare(b.username))
+  );
 
   client.on("user-connect", function (user) {
     client.username = user.username;
@@ -50,7 +53,10 @@ socketIO.on("connection", (client) => {
       })
       .indexOf(user.userId);
     availableUsers.splice(indexUser, 1);
-    client.emit("available-users", availableUsers);
+    client.emit(
+      "available-users",
+      availableUsers.sort((a, b) => a.username.localeCompare(b.username))
+    );
 
     onlineUsers.push({
       userId: user.userId,
@@ -63,7 +69,10 @@ socketIO.on("connection", (client) => {
       userId: user.userId,
       username: client.username,
     });
-    client.emit("available-users", availableUsers);
+    client.emit(
+      "available-users",
+      availableUsers.sort((a, b) => a.username.localeCompare(b.username))
+    );
   });
 });
 
