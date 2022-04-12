@@ -11,24 +11,19 @@ app.get("/", function (req, res) {
 });
 var availableUsers = [{
   userId: "1111",
-  username: "Nano Nano",
-  chatId: null
+  username: "Nano Nano"
 }, {
   userId: "2222",
-  username: "Pendekar Biru",
-  chatId: null
+  username: "Pendekar Biru"
 }, {
   userId: "3333",
-  username: "Jagoan Neon",
-  chatId: null
+  username: "Jagoan Neon"
 }, {
   userId: "4444",
-  username: "Hot Hot Pop",
-  chatId: null
+  username: "Hot Hot Pop"
 }, {
   userId: "5555",
-  username: "Harum Manis",
-  chatId: null
+  username: "Harum Manis"
 }];
 var onlineUsers = [];
 socketIO.on("connection", function (client) {
@@ -42,7 +37,7 @@ socketIO.on("connection", function (client) {
   client.emit("available-users", availableUsers); // user connected
 
   client.on("user-connect", function (user) {
-    client.username = user.username;
+    client.join(user.userId);
     var indexUser = availableUsers.map(function (x) {
       return x.userId;
     }).indexOf(user.userId);
@@ -53,8 +48,7 @@ socketIO.on("connection", function (client) {
     socketIO.emit("available-users", availableUsers);
     onlineUsers.push({
       userId: user.userId,
-      username: client.username,
-      chatId: client.id
+      username: client.username
     });
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
@@ -63,11 +57,11 @@ socketIO.on("connection", function (client) {
   }); // user disconnected
 
   client.on("user-disconnect", function (user) {
-    // available users
+    client.leave(user.userId); // available users
+
     availableUsers.push({
       userId: user.userId,
-      username: client.username,
-      chatId: null
+      username: client.username
     });
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
