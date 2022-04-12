@@ -11,23 +11,28 @@ app.get("/", (req, res) => {
 const availableUsers = [
   {
     userId: "1111",
-    username: "NanoNano",
+    username: "Nano Nano",
+    chatId: null,
   },
   {
     userId: "2222",
-    username: "PendekarBiru",
+    username: "Pendekar Biru",
+    chatId: null,
   },
   {
     userId: "3333",
-    username: "JagoanNeon",
+    username: "Jagoan Neon",
+    chatId: null,
   },
   {
     userId: "4444",
-    username: "HotHotPop",
+    username: "Hot Hot Pop",
+    chatId: null,
   },
   {
     userId: "5555",
-    username: "HarumManis",
+    username: "Harum Manis",
+    chatId: null,
   },
 ];
 
@@ -42,6 +47,7 @@ socketIO.on("connection", (client) => {
   availableUsers.sort((a, b) => a.username.localeCompare(b.username));
   client.emit("available-users", availableUsers);
 
+  // user connected
   client.on("user-connect", function (user) {
     client.username = user.username;
 
@@ -57,16 +63,19 @@ socketIO.on("connection", (client) => {
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
+      chatId: client.id,
     });
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);
   });
 
+  // user disconnected
   client.on("user-disconnect", (user) => {
     // available users
     availableUsers.push({
       userId: user.userId,
       username: client.username,
+      chatId: null,
     });
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("available-users", availableUsers);
@@ -80,6 +89,15 @@ socketIO.on("connection", (client) => {
     onlineUsers.splice(indexUser, 1);
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);
+  });
+
+  // send message
+  client.on("send-message", (dataMessage) => {
+    let to = dataMessage.toId;
+    client.to(to).emit("send-message", {
+      content,
+      from: client.id,
+    });
   });
 });
 

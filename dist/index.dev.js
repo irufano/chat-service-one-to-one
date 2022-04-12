@@ -11,19 +11,24 @@ app.get("/", function (req, res) {
 });
 var availableUsers = [{
   userId: "1111",
-  username: "NanoNano"
+  username: "Nano Nano",
+  chatId: null
 }, {
   userId: "2222",
-  username: "PendekarBiru"
+  username: "Pendekar Biru",
+  chatId: null
 }, {
   userId: "3333",
-  username: "JagoanNeon"
+  username: "Jagoan Neon",
+  chatId: null
 }, {
   userId: "4444",
-  username: "HotHotPop"
+  username: "Hot Hot Pop",
+  chatId: null
 }, {
   userId: "5555",
-  username: "HarumManis"
+  username: "Harum Manis",
+  chatId: null
 }];
 var onlineUsers = [];
 socketIO.on("connection", function (client) {
@@ -34,7 +39,8 @@ socketIO.on("connection", function (client) {
   availableUsers.sort(function (a, b) {
     return a.username.localeCompare(b.username);
   });
-  client.emit("available-users", availableUsers);
+  client.emit("available-users", availableUsers); // user connected
+
   client.on("user-connect", function (user) {
     client.username = user.username;
     var indexUser = availableUsers.map(function (x) {
@@ -47,18 +53,21 @@ socketIO.on("connection", function (client) {
     socketIO.emit("available-users", availableUsers);
     onlineUsers.push({
       userId: user.userId,
-      username: client.username
+      username: client.username,
+      chatId: client.id
     });
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
     socketIO.emit("online-users", onlineUsers);
-  });
+  }); // user disconnected
+
   client.on("user-disconnect", function (user) {
     // available users
     availableUsers.push({
       userId: user.userId,
-      username: client.username
+      username: client.username,
+      chatId: null
     });
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
@@ -73,6 +82,14 @@ socketIO.on("connection", function (client) {
       return a.username.localeCompare(b.username);
     });
     socketIO.emit("online-users", onlineUsers);
+  }); // send message
+
+  client.on("send-message", function (dataMessage) {
+    var to = dataMessage.toId;
+    client.to(to).emit("send-message", {
+      content: content,
+      from: client.id
+    });
   });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
