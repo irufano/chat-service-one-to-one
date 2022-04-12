@@ -18,11 +18,8 @@ socketIO.on("connection", (socket) => {
   //     username: socket.username,
   //   });
   // }
-  users.push({
-    userID: id,
-    username: socket.username,
-  });
-  socket.emit("users", users);
+  
+  socket.emit("users", socket.username);
 
 
 });
