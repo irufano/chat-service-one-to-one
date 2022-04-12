@@ -48,43 +48,6 @@ socketIO.on("connection", (client) => {
   client.emit("available-users", availableUsers);
 
   // user connected
-  client.on("reset-user", function (data) {
-    availableUsers = [];
-    onlineUsers = [];
-    availableUsers = [
-      {
-        userId: "1111",
-        username: "Nano Nano",
-        chatId: null,
-      },
-      {
-        userId: "2222",
-        username: "Pendekar Biru",
-        chatId: null,
-      },
-      {
-        userId: "3333",
-        username: "Jagoan Neon",
-        chatId: null,
-      },
-      {
-        userId: "4444",
-        username: "Hot Hot Pop",
-        chatId: null,
-      },
-      {
-        userId: "5555",
-        username: "Harum Manis",
-        chatId: null,
-      },
-    ];
-
-    availableUsers.sort((a, b) => a.username.localeCompare(b.username));
-    client.emit("available-users", availableUsers);
-    client.emit("online-users", []);
-  });
-
-  // user connected
   client.on("user-connect", function (user) {
     client.username = user.username;
     client.id = client.id;

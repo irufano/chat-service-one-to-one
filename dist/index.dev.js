@@ -1,7 +1,5 @@
 "use strict";
 
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 var app = require("express")();
 
 var server = require("http").createServer(app);
@@ -42,37 +40,6 @@ socketIO.on("connection", function (client) {
     return a.username.localeCompare(b.username);
   });
   client.emit("available-users", availableUsers); // user connected
-
-  client.on("reset-user", function (data) {
-    availableUsers = (_readOnlyError("availableUsers"), []);
-    onlineUsers = (_readOnlyError("onlineUsers"), []);
-    availableUsers = (_readOnlyError("availableUsers"), [{
-      userId: "1111",
-      username: "Nano Nano",
-      chatId: null
-    }, {
-      userId: "2222",
-      username: "Pendekar Biru",
-      chatId: null
-    }, {
-      userId: "3333",
-      username: "Jagoan Neon",
-      chatId: null
-    }, {
-      userId: "4444",
-      username: "Hot Hot Pop",
-      chatId: null
-    }, {
-      userId: "5555",
-      username: "Harum Manis",
-      chatId: null
-    }]);
-    availableUsers.sort(function (a, b) {
-      return a.username.localeCompare(b.username);
-    });
-    client.emit("available-users", availableUsers);
-    client.emit("online-users", []);
-  }); // user connected
 
   client.on("user-connect", function (user) {
     client.username = user.username;
