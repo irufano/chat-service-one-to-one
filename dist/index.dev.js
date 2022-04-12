@@ -11,19 +11,24 @@ app.get("/", function (req, res) {
 });
 var availableUsers = [{
   userId: "1111",
-  username: "Nano Nano"
+  username: "Nano Nano",
+  chatId: null
 }, {
   userId: "2222",
-  username: "Pendekar Biru"
+  username: "Pendekar Biru",
+  chatId: null
 }, {
   userId: "3333",
-  username: "Jagoan Neon"
+  username: "Jagoan Neon",
+  chatId: null
 }, {
   userId: "4444",
-  username: "Hot Hot Pop"
+  username: "Hot Hot Pop",
+  chatId: null
 }, {
   userId: "5555",
-  username: "Harum Manis"
+  username: "Harum Manis",
+  chatId: null
 }];
 var onlineUsers = [];
 socketIO.on("connection", function (client) {
@@ -37,7 +42,7 @@ socketIO.on("connection", function (client) {
   client.emit("available-users", availableUsers); // user connected
 
   client.on("user-connect", function (user) {
-    client.join(user.userId);
+    client.username = user.username;
     var indexUser = availableUsers.map(function (x) {
       return x.userId;
     }).indexOf(user.userId);
@@ -48,7 +53,8 @@ socketIO.on("connection", function (client) {
     socketIO.emit("available-users", availableUsers);
     onlineUsers.push({
       userId: user.userId,
-      username: client.username
+      username: client.username,
+      chatId: client.id
     });
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
@@ -57,11 +63,11 @@ socketIO.on("connection", function (client) {
   }); // user disconnected
 
   client.on("user-disconnect", function (user) {
-    client.leave(user.userId); // available users
-
+    // available users
     availableUsers.push({
       userId: user.userId,
-      username: client.username
+      username: client.username,
+      chatId: null
     });
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
@@ -80,9 +86,11 @@ socketIO.on("connection", function (client) {
 
   client.on("send-message", function (dataMessage) {
     var to = dataMessage.toId;
-    client.to(to).emit("send-message", {
-      content: content,
-      from: client.id
+    client.to(to).emit("receive-message", {
+      message: dataMessage.message,
+      toId: dataMessage.toId,
+      fromId: dataMessage.fromId,
+      sentAt: dataMessage.sentAt
     });
   });
 }); // socketIO.on("connection", (client) => {

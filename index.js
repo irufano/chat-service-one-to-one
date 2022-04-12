@@ -12,22 +12,27 @@ const availableUsers = [
   {
     userId: "1111",
     username: "Nano Nano",
+    chatId: null,
   },
   {
     userId: "2222",
     username: "Pendekar Biru",
+    chatId: null,
   },
   {
     userId: "3333",
     username: "Jagoan Neon",
+    chatId: null,
   },
   {
     userId: "4444",
     username: "Hot Hot Pop",
+    chatId: null,
   },
   {
     userId: "5555",
     username: "Harum Manis",
+    chatId: null,
   },
 ];
 
@@ -44,7 +49,7 @@ socketIO.on("connection", (client) => {
 
   // user connected
   client.on("user-connect", function (user) {
-    client.join(user.userId);
+    client.username = user.username;
 
     let indexUser = availableUsers
       .map((x) => {
@@ -58,6 +63,7 @@ socketIO.on("connection", (client) => {
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
+      chatId: client.id,
     });
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);
@@ -65,12 +71,11 @@ socketIO.on("connection", (client) => {
 
   // user disconnected
   client.on("user-disconnect", (user) => {
-    client.leave(user.userId);
-    
     // available users
     availableUsers.push({
       userId: user.userId,
       username: client.username,
+      chatId: null,
     });
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("available-users", availableUsers);
@@ -89,9 +94,11 @@ socketIO.on("connection", (client) => {
   // send message
   client.on("send-message", (dataMessage) => {
     let to = dataMessage.toId;
-    client.to(to).emit("send-message", {
-      content,
-      from: client.id,
+    client.to(to).emit("receive-message", {
+      message: dataMessage.message,
+      toId: dataMessage.toId,
+      fromId: dataMessage.fromId,
+      sentAt: dataMessage.sentAt,
     });
   });
 });
