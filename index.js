@@ -12,7 +12,6 @@ socketIO.on("connection", (socket) => {
   socket.username = socket.handshake.query.username;
 
   var srvSockets = socketIO.sockets.sockets;
-  Object.keys(srvSockets).length;
 
   const users = [];
   // for (let [id, socket] of io.of("/").sockets) {
@@ -22,7 +21,7 @@ socketIO.on("connection", (socket) => {
   //   });
   // }
 
-  socket.emit("users", Object.keys(srvSockets).length);
+  socket.emit("users", Object.keys(srvSockets).length.toString());
 });
 
 // socketIO.on("connection", (client) => {
