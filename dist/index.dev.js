@@ -71,7 +71,7 @@ socketIO.on("connection", function (client) {
       return a.username.localeCompare(b.username);
     });
     client.emit("available-users", availableUsers);
-    client.emit("online-users", onlineUsers);
+    client.emit("online-users", []);
   }); // user connected
 
   client.on("user-connect", function (user) {

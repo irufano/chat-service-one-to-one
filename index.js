@@ -81,7 +81,7 @@ socketIO.on("connection", (client) => {
 
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     client.emit("available-users", availableUsers);
-    client.emit("online-users", onlineUsers);
+    client.emit("online-users", []);
   });
 
   // user connected
