@@ -103,6 +103,7 @@ socketIO.on("connection", (client) => {
   });
 });
 
+
 // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
 // chatID = client.handshake.query.chatID;
