@@ -8,20 +8,46 @@ app.get("/", (req, res) => {
   );
 });
 
-socketIO.on("connection", (socket) => {
-  socket.username = socket.handshake.query.username;
+const availableUsers = [
+  {
+    userId: 1111,
+    username: "NanoNano",
+  },
+  {
+    userId: 2222,
+    username: "PendekarBiru",
+  },
+  {
+    userId: 3333,
+    username: "JagoanNeon",
+  },
+  {
+    userId: 4444,
+    username: "HotHotPop",
+  },
+  {
+    userId: 5555,
+    username: "HarumManis",
+  },
+];
 
+const onlineUsers = [];
+
+socketIO.on("connection", (client) => {
   var srvSockets = socketIO.sockets.sockets;
+  // Object.keys(srvSockets).length.toString()
+  // var nspSockets = io.of('/chat').sockets;
 
-  const users = [];
-  // for (let [id, socket] of io.of("/").sockets) {
-  //   users.push({
-  //     userID: id,
-  //     username: socket.username,
+  // client.on("send-user", function (user) {
+  //   client.username = user.username;
+  //   onlineUsers.push({
+  //     userId: user.userId,
+  //     username: client.username,
   //   });
-  // }
+  // });
 
-  socket.emit("users", Object.keys(srvSockets).length.toString());
+  
+  client.emit("available-users", availableUsers);
 });
 
 // socketIO.on("connection", (client) => {
