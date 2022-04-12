@@ -63,7 +63,7 @@ socketIO.on("connection", (client) => {
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
-      // chatId: client.id,
+      chatId: socketIO.id,
     });
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);
@@ -75,7 +75,7 @@ socketIO.on("connection", (client) => {
     availableUsers.push({
       userId: user.userId,
       username: client.username,
-      // chatId: null,
+      chatId: null,
     });
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("available-users", availableUsers);
