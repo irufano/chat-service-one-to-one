@@ -43,6 +43,7 @@ socketIO.on("connection", function (client) {
 
   client.on("user-connect", function (user) {
     client.username = user.username;
+    client.id = client.id;
     var indexUser = availableUsers.map(function (x) {
       return x.userId;
     }).indexOf(user.userId);
@@ -55,7 +56,7 @@ socketIO.on("connection", function (client) {
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
-      chatId: 'asa'
+      chatId: client.id
     });
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);

@@ -50,6 +50,7 @@ socketIO.on("connection", (client) => {
   // user connected
   client.on("user-connect", function (user) {
     client.username = user.username;
+    client.id = client.id;
 
     let indexUser = availableUsers
       .map((x) => {
@@ -64,7 +65,7 @@ socketIO.on("connection", (client) => {
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
-      chatId: 'asa',
+      chatId: client.id,
     });
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);
