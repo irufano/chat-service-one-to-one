@@ -96,6 +96,12 @@ socketIO.on("connection", (client) => {
   // send message
   client.on("send-message", (dataMessage) => {
     let to = dataMessage.toId;
+    client.emit("receive-message", {
+      message: dataMessage.message,
+      toId: dataMessage.toId,
+      fromId: dataMessage.fromId,
+      sentAt: dataMessage.sentAt,
+    });
     client.in(to).emit("receive-message", {
       message: dataMessage.message,
       toId: dataMessage.toId,
