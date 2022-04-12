@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
 });
 
 socketIO.on("connection", (socket) => {
-  socket.username = client.handshake.query.username;
+  socket.username = socket.handshake.query.username;
   socket.emit("users", 'hahahahah');
   
   // const users = [];
