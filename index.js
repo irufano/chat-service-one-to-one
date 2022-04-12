@@ -36,11 +36,12 @@ const onlineUsers = [];
 socketIO.on("connection", (client) => {
   var srvSockets = socketIO.sockets.sockets;
   // Object.keys(srvSockets).length.toString()
-  // var nspSockets = io.of('/chat').sockets;
+  // var nspSockets = socketIO.of('/chat').sockets;
+  // Object.keys(nspSockets).length.toString()
 
   client.emit("available-users", availableUsers);
 
-  client.on("send-user", function (user) {
+  client.on("user-connect", function (user) {
     client.username = user.username;
 
     let indexUser = availableUsers
@@ -57,7 +58,7 @@ socketIO.on("connection", (client) => {
     });
   });
 
-  client.on("disconnect", (user) => {
+  client.on("user-disconnect", (user) => {
     availableUsers.push({
       userId: user.userId,
       username: client.username,

@@ -28,10 +28,11 @@ var availableUsers = [{
 var onlineUsers = [];
 socketIO.on("connection", function (client) {
   var srvSockets = socketIO.sockets.sockets; // Object.keys(srvSockets).length.toString()
-  // var nspSockets = io.of('/chat').sockets;
+  // var nspSockets = socketIO.of('/chat').sockets;
+  // Object.keys(nspSockets).length.toString()
 
   client.emit("available-users", availableUsers);
-  client.on("send-user", function (user) {
+  client.on("user-connect", function (user) {
     client.username = user.username;
     var indexUser = availableUsers.map(function (x) {
       return x.userId;
@@ -43,7 +44,7 @@ socketIO.on("connection", function (client) {
       username: client.username
     });
   });
-  client.on("disconnect", function (user) {
+  client.on("user-disconnect", function (user) {
     availableUsers.push({
       userId: user.userId,
       username: client.username
