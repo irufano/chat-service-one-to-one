@@ -10,23 +10,23 @@ app.get("/", (req, res) => {
 
 const availableUsers = [
   {
-    userId: 1111,
+    userId: '1111',
     username: "NanoNano",
   },
   {
-    userId: 2222,
+    userId: '2222',
     username: "PendekarBiru",
   },
   {
-    userId: 3333,
+    userId: '3333',
     username: "JagoanNeon",
   },
   {
-    userId: 4444,
+    userId: '4444',
     username: "HotHotPop",
   },
   {
-    userId: 5555,
+    userId: '5555',
     username: "HarumManis",
   },
 ];
