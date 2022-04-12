@@ -7,7 +7,7 @@ var server = require("http").createServer(app);
 var socketIO = require("socket.io")(server);
 
 app.get("/", function (req, res) {
-  res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chat Service</title><meta name="description" content="Chat service one to one using socket.io by irufano"></head><body><h3>Chat service is running...</h3></body></html>');
+  res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chat Service</title><meta name="description" content="Chat service private messaging (one to one) using socket.io by irufano"><link rel="icon" type="image/png" href="https://irufano.com/irufanotheme/assets/images/logo-2.png"></link></head><body><h3>Chat service is running...</h3><br><br><br><img src="https://irufano.com/irufanotheme/assets/images/logo.png" alt="Placeholder image"></img></body></html>');
 });
 var availableUsers = [{
   userId: "1111",
