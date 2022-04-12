@@ -50,6 +50,7 @@ socketIO.on("connection", (client) => {
   // user connected
   client.on("reset-user", function (data) {
     availableUsers = [];
+    onlineUsers = [];
     availableUsers = [
       {
         userId: "1111",
@@ -80,6 +81,7 @@ socketIO.on("connection", (client) => {
 
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     client.emit("available-users", availableUsers);
+    client.emit("online-users", onlineUsers);
   });
 
   // user connected

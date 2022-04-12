@@ -45,6 +45,7 @@ socketIO.on("connection", function (client) {
 
   client.on("reset-user", function (data) {
     availableUsers = (_readOnlyError("availableUsers"), []);
+    onlineUsers = (_readOnlyError("onlineUsers"), []);
     availableUsers = (_readOnlyError("availableUsers"), [{
       userId: "1111",
       username: "Nano Nano",
@@ -70,6 +71,7 @@ socketIO.on("connection", function (client) {
       return a.username.localeCompare(b.username);
     });
     client.emit("available-users", availableUsers);
+    client.emit("online-users", onlineUsers);
   }); // user connected
 
   client.on("user-connect", function (user) {
