@@ -12,12 +12,16 @@ socketIO.on("connection", (socket) => {
   socket.username = socket.handshake.query.username;
   
   const users = [];
-  for (let [id, socket] of io.of("/").sockets) {
-    users.push({
-      userID: id,
-      username: socket.username,
-    });
-  }
+  // for (let [id, socket] of io.of("/").sockets) {
+  //   users.push({
+  //     userID: id,
+  //     username: socket.username,
+  //   });
+  // }
+  users.push({
+    userID: id,
+    username: socket.username,
+  });
   socket.emit("users", users);
 
 
