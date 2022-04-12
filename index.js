@@ -10,16 +10,15 @@ app.get("/", (req, res) => {
 
 socketIO.on("connection", (socket) => {
   socket.username = socket.handshake.query.username;
-  socket.emit("users", 'hahahahah');
   
-  // const users = [];
-  // for (let [id, socket] of io.of("/").sockets) {
-  //   users.push({
-  //     userID: id,
-  //     username: socket.username,
-  //   });
-  // }
-  // socket.emit("users", users);
+  const users = [];
+  for (let [id, socket] of io.of("/").sockets) {
+    users.push({
+      userID: id,
+      username: socket.username,
+    });
+  }
+  socket.emit("users", users);
 
 
 });
