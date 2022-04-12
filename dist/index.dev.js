@@ -52,7 +52,7 @@ socketIO.on("connection", function (client) {
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
-    client.emit("online-users", onlineUsers);
+    socketIO.emit("online-users", onlineUsers);
   });
   client.on("user-disconnect", function (user) {
     // available users
