@@ -63,12 +63,23 @@ socketIO.on("connection", (client) => {
   });
 
   client.on("user-disconnect", (user) => {
+    // available users
     availableUsers.push({
       userId: user.userId,
       username: client.username,
     });
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     client.emit("available-users", availableUsers);
+
+    // online users
+    let indexUser = onlineUsers
+      .map((x) => {
+        return x.userId;
+      })
+      .indexOf(user.userId);
+    onlineUsers.splice(indexUser, 1);
+    onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
+    client.emit("online-users", onlineUsers);
   });
 });
 

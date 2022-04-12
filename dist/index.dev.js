@@ -55,6 +55,7 @@ socketIO.on("connection", function (client) {
     client.emit("online-users", onlineUsers);
   });
   client.on("user-disconnect", function (user) {
+    // available users
     availableUsers.push({
       userId: user.userId,
       username: client.username
@@ -62,7 +63,16 @@ socketIO.on("connection", function (client) {
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
-    client.emit("available-users", availableUsers);
+    client.emit("available-users", availableUsers); // online users
+
+    var indexUser = onlineUsers.map(function (x) {
+      return x.userId;
+    }).indexOf(user.userId);
+    onlineUsers.splice(indexUser, 1);
+    onlineUsers.sort(function (a, b) {
+      return a.username.localeCompare(b.username);
+    });
+    client.emit("online-users", onlineUsers);
   });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
