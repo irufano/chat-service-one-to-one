@@ -59,11 +59,12 @@ socketIO.on("connection", (client) => {
     availableUsers.splice(indexUser, 1);
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("available-users", availableUsers);
+    socketIO.emit("socket-id", client.id);
 
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
-      chatId: socketIO.id,
+      chatId: 'asa',
     });
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
     socketIO.emit("online-users", onlineUsers);

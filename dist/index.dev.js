@@ -51,10 +51,11 @@ socketIO.on("connection", function (client) {
       return a.username.localeCompare(b.username);
     });
     socketIO.emit("available-users", availableUsers);
+    socketIO.emit("socket-id", client.id);
     onlineUsers.push({
       userId: user.userId,
       username: client.username,
-      chatId: socketIO.id
+      chatId: 'asa'
     });
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
