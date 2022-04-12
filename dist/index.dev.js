@@ -90,14 +90,14 @@ socketIO.on("connection", function (client) {
     var to = dataMessage.toId;
     client.emit("receive-message", {
       message: dataMessage.message,
-      toId: dataMessage.toId,
-      fromId: dataMessage.fromId,
+      fromChatId: dataMessage.fromChatId,
+      toChatId: dataMessage.toChatId,
       sentAt: dataMessage.sentAt
     });
     client["in"](to).emit("receive-message", {
       message: dataMessage.message,
-      toId: dataMessage.toId,
-      fromId: dataMessage.fromId,
+      fromChatId: dataMessage.fromChatId,
+      toChatId: dataMessage.toChatId,
       sentAt: dataMessage.sentAt
     });
   });
