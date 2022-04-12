@@ -95,14 +95,8 @@ socketIO.on("connection", (client) => {
 
   // send message
   client.on("send-message", (dataMessage) => {
-    let to = dataMessage.toId;
-    client.emit("receive-message", {
-      message: dataMessage.message,
-      fromChatId: dataMessage.fromChatId,
-      toChatId: dataMessage.toChatId,
-      sentAt: dataMessage.sentAt,
-    });
-    client.in(to).emit("receive-message", {
+    let to = dataMessage.toChatId;
+    client.to(to).emit("receive-message", {
       message: dataMessage.message,
       fromChatId: dataMessage.fromChatId,
       toChatId: dataMessage.toChatId,

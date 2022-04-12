@@ -87,14 +87,8 @@ socketIO.on("connection", function (client) {
   }); // send message
 
   client.on("send-message", function (dataMessage) {
-    var to = dataMessage.toId;
-    client.emit("receive-message", {
-      message: dataMessage.message,
-      fromChatId: dataMessage.fromChatId,
-      toChatId: dataMessage.toChatId,
-      sentAt: dataMessage.sentAt
-    });
-    client["in"](to).emit("receive-message", {
+    var to = dataMessage.toChatId;
+    client.to(to).emit("receive-message", {
       message: dataMessage.message,
       fromChatId: dataMessage.fromChatId,
       toChatId: dataMessage.toChatId,
