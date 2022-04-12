@@ -44,7 +44,7 @@ socketIO.on("connection", function (client) {
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
-    client.emit("available-users", availableUsers);
+    socketIO.emit("available-users", availableUsers);
     onlineUsers.push({
       userId: user.userId,
       username: client.username
@@ -63,7 +63,7 @@ socketIO.on("connection", function (client) {
     availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
-    client.emit("available-users", availableUsers); // online users
+    socketIO.emit("available-users", availableUsers); // online users
 
     var indexUser = onlineUsers.map(function (x) {
       return x.userId;

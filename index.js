@@ -52,7 +52,7 @@ socketIO.on("connection", (client) => {
       .indexOf(user.userId);
     availableUsers.splice(indexUser, 1);
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
-    client.emit("available-users", availableUsers);
+    socketIO.emit("available-users", availableUsers);
 
     onlineUsers.push({
       userId: user.userId,
@@ -69,7 +69,7 @@ socketIO.on("connection", (client) => {
       username: client.username,
     });
     availableUsers.sort((a, b) => a.username.localeCompare(b.username));
-    client.emit("available-users", availableUsers);
+    socketIO.emit("available-users", availableUsers);
 
     // online users
     let indexUser = onlineUsers
