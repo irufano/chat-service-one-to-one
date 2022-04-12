@@ -8,32 +8,49 @@ app.get("/", (req, res) => {
   );
 });
 
-socketIO.on("connection", (client) => {
-  //Get the chatID of the user and join in a room of the same chatID
-  chatID = client.handshake.query.chatID;
-  client.join(chatID);
-
-  //Leave the room if the user closes the socket
-  client.on("disconnect", () => {
-    client.leave(chatID);
-  });
-
-  //Send message to only a particular user
-  client.on("send_message", (dataMessage) => {
-    receiverChatID = dataMessage.receiverChatID;
-    senderChatID = dataMessage.senderChatID;
-    message = dataMessage.message;
-    sentAt = dataMessage.sentAt;
-    
-    //Send message to only that particular room
-    client.in(receiverChatID).emit("receive_message", {
-      message: message,
-      senderChatID: senderChatID,
-      receiverChatID: receiverChatID,
-      sentAt: sentAt,
+socketIO.on("connection", (socket) => {
+  socket.username = client.handshake.query.username;
+  
+  const users = [];
+  for (let [id, socket] of io.of("/").sockets) {
+    users.push({
+      userID: id,
+      username: socket.username,
     });
-  });
+  }
+  socket.emit("users", users);
+
+
 });
+
+
+
+// socketIO.on("connection", (client) => {
+// //Get the chatID of the user and join in a room of the same chatID
+// chatID = client.handshake.query.chatID;
+// client.join(chatID);
+
+// //Leave the room if the user closes the socket
+// client.on("disconnect", () => {
+//   client.leave(chatID);
+// });
+
+// //Send message to only a particular user
+// client.on("send_message", (dataMessage) => {
+//   receiverChatID = dataMessage.receiverChatID;
+//   senderChatID = dataMessage.senderChatID;
+//   message = dataMessage.message;
+//   sentAt = dataMessage.sentAt;
+
+//   //Send message to only that particular room
+//   client.in(receiverChatID).emit("receive_message", {
+//     message: message,
+//     senderChatID: senderChatID,
+//     receiverChatID: receiverChatID,
+//     sentAt: sentAt,
+//   });
+// });
+// });
 
 var port = process.env.PORT;
 
