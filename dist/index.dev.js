@@ -88,7 +88,7 @@ socketIO.on("connection", function (client) {
 
   client.on("send-message", function (dataMessage) {
     var to = dataMessage.toId;
-    client.to(to).emit("receive-message", {
+    client["in"](to).emit("receive-message", {
       message: dataMessage.message,
       toId: dataMessage.toId,
       fromId: dataMessage.fromId,
