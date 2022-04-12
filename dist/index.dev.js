@@ -72,7 +72,7 @@ socketIO.on("connection", function (client) {
     onlineUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
     });
-    client.emit("online-users", onlineUsers);
+    socketIO.emit("online-users", onlineUsers);
   });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID

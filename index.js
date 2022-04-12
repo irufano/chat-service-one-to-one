@@ -79,7 +79,7 @@ socketIO.on("connection", (client) => {
       .indexOf(user.userId);
     onlineUsers.splice(indexUser, 1);
     onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
-    client.emit("online-users", onlineUsers);
+    socketIO.emit("online-users", onlineUsers);
   });
 });
 
