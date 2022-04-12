@@ -43,6 +43,13 @@ socketIO.on("connection", function (client) {
       username: client.username
     });
   });
+  client.on("disconnect", function (user) {
+    availableUsers.push({
+      userId: user.userId,
+      username: client.username
+    });
+    client.emit("available-users", availableUsers);
+  });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
 // chatID = client.handshake.query.chatID;

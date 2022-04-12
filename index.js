@@ -56,6 +56,14 @@ socketIO.on("connection", (client) => {
       username: client.username,
     });
   });
+
+  client.on("disconnect", (user) => {
+    availableUsers.push({
+      userId: user.userId,
+      username: client.username,
+    });
+    client.emit("available-users", availableUsers);
+  });
 });
 
 // socketIO.on("connection", (client) => {
