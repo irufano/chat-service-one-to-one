@@ -10,7 +10,10 @@ app.get("/", (req, res) => {
 
 socketIO.on("connection", (socket) => {
   socket.username = socket.handshake.query.username;
-  
+
+  var srvSockets = socketIO.sockets.sockets;
+  Object.keys(srvSockets).length;
+
   const users = [];
   // for (let [id, socket] of io.of("/").sockets) {
   //   users.push({
@@ -18,13 +21,9 @@ socketIO.on("connection", (socket) => {
   //     username: socket.username,
   //   });
   // }
-  
-  socket.emit("users", socket.username);
 
-
+  socket.emit("users", Object.keys(srvSockets).length);
 });
-
-
 
 // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
