@@ -103,10 +103,6 @@ socketIO.on("connection", (client) => {
       sentAt: dataMessage.sentAt,
     });
   });
-
-  client.on("disconnect", (dataMessage) => {
-    console.log("disconnect");
-  });
 });
 
 // socketIO.on("connection", (client) => {

@@ -95,9 +95,6 @@ socketIO.on("connection", function (client) {
       sentAt: dataMessage.sentAt
     });
   });
-  client.on("disconnect", function (dataMessage) {
-    console.log("disconnect");
-  });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
 // chatID = client.handshake.query.chatID;
