@@ -31,18 +31,20 @@ socketIO.on("connection", function (client) {
   // var nspSockets = socketIO.of('/chat').sockets;
   // Object.keys(nspSockets).length.toString()
 
-  client.emit("available-users", availableUsers.sort(function (a, b) {
+  availableUsers.sort(function (a, b) {
     return a.username.localeCompare(b.username);
-  }));
+  });
+  client.emit("available-users", availableUsers);
   client.on("user-connect", function (user) {
     client.username = user.username;
     var indexUser = availableUsers.map(function (x) {
       return x.userId;
     }).indexOf(user.userId);
     availableUsers.splice(indexUser, 1);
-    client.emit("available-users", availableUsers.sort(function (a, b) {
+    availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
-    }));
+    });
+    client.emit("available-users", availableUsers);
     onlineUsers.push({
       userId: user.userId,
       username: client.username
@@ -53,9 +55,10 @@ socketIO.on("connection", function (client) {
       userId: user.userId,
       username: client.username
     });
-    client.emit("available-users", availableUsers.sort(function (a, b) {
+    availableUsers.sort(function (a, b) {
       return a.username.localeCompare(b.username);
-    }));
+    });
+    client.emit("available-users", availableUsers);
   });
 }); // socketIO.on("connection", (client) => {
 // //Get the chatID of the user and join in a room of the same chatID
