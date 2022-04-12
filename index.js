@@ -58,6 +58,8 @@ socketIO.on("connection", (client) => {
       userId: user.userId,
       username: client.username,
     });
+    onlineUsers.sort((a, b) => a.username.localeCompare(b.username));
+    client.emit("online-users", onlineUsers);
   });
 
   client.on("user-disconnect", (user) => {

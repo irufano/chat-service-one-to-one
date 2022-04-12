@@ -49,6 +49,10 @@ socketIO.on("connection", function (client) {
       userId: user.userId,
       username: client.username
     });
+    onlineUsers.sort(function (a, b) {
+      return a.username.localeCompare(b.username);
+    });
+    client.emit("online-users", onlineUsers);
   });
   client.on("user-disconnect", function (user) {
     availableUsers.push({
